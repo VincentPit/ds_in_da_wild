@@ -7,6 +7,10 @@ This project uses:
 
 - Traffic Volume Counts (Historical): https://data.cityofnewyork.us/Transportation/Traffic-Volume-Counts-Historical/btm5-ppia
 - Motor Vehicle Collisions - Crashes: https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95
+- New York City Climate Projections: Temperature and Precipitation: https://data.cityofnewyork.us/Environment/New-York-City-Climate-Projections-Temperature-and/hmdk-eidg
+- Hyperlocal Temperature Monitoring: https://data.cityofnewyork.us/Environment/Hyperlocal-Temperature-Monitoring/qdq3-9eqn
+
+Detailed download instructions for all datasets: [DATA_DOWNLOAD_GUIDE.md](DATA_DOWNLOAD_GUIDE.md)
 
 ### How to download CSV from the website
 
@@ -19,6 +23,8 @@ Direct CSV links:
 
 - Traffic: https://data.cityofnewyork.us/api/views/btm5-ppia/rows.csv?accessType=DOWNLOAD
 - Crashes: https://data.cityofnewyork.us/api/views/h9gi-nx95/rows.csv?accessType=DOWNLOAD
+- Climate projections: https://data.cityofnewyork.us/api/views/hmdk-eidg/rows.csv?accessType=DOWNLOAD
+- Hyperlocal temperature: https://data.cityofnewyork.us/api/views/qdq3-9eqn/rows.csv?accessType=DOWNLOAD
 
 See also: [DATA_DOWNLOAD_GUIDE.md](DATA_DOWNLOAD_GUIDE.md)
 
