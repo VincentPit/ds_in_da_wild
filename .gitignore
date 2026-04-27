@@ -1,4 +1,7 @@
-# Ignore raw datasets
-data/
+# Ignore raw datasets by default (use data/* not data/ so negations work)
+data/*
+# but keep the Phase IV analysis-ready CSVs
+!data/phase4_borough_day.csv
+!data/phase4_city_day.csv
 .venv
 .claude
