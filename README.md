@@ -1,44 +1,51 @@
-ds_in_da_wild
-For ds class project.
+# ds_in_da_wild
 
-## Data sources (NYC Open Data)
+DS class project — **How is daily roadway traffic volume associated with motor-vehicle collision frequency and injury severity in NYC?**
 
-This project uses:
+**Group:** Qiaohao Hu (qh252), Jinyue Wang (jw2796), Junyi Li (jl4724), Wenzhuo Zhang (wz475)
 
-- Traffic Volume Counts (Historical): https://data.cityofnewyork.us/Transportation/Traffic-Volume-Counts-Historical/btm5-ppia
-- Motor Vehicle Collisions - Crashes: https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95
-- New York City Climate Projections: Temperature and Precipitation: https://data.cityofnewyork.us/Environment/New-York-City-Climate-Projections-Temperature-and/hmdk-eidg
-- Hyperlocal Temperature Monitoring: https://data.cityofnewyork.us/Environment/Hyperlocal-Temperature-Monitoring/qdq3-9eqn
+## Phase IV — final submission
 
-Detailed download instructions for all datasets: [DATA_DOWNLOAD_GUIDE.md](DATA_DOWNLOAD_GUIDE.md)
+The Phase IV deliverable is a single executed notebook plus a standalone cleaning script:
 
-### How to download CSV from the website
+- **Final notebook:** [phase4_final.ipynb](phase4_final.ipynb) — introduction, data description, cleaning summary, preregistration, three preregistered analyses (NegBin GLM, HC3-OLS, chi-square), supplemental analyses, conclusions, limitations, bibliography.
+- **Cleaning script:** [phase4_clean.py](phase4_clean.py) — reads cached inputs from `data/` and writes the two analysis-ready CSVs the notebook imports.
+- **Analysis-ready CSVs (committed):**
+  - [data/phase4_borough_day.csv](data/phase4_borough_day.csv) — 18,693 rows (5 boroughs × 3,739 dates), used for H1.
+  - [data/phase4_city_day.csv](data/phase4_city_day.csv) — 3,739 city-days, used for H2 and H3.
+- **Pre-fetched ERA5 weather:** [data/era5_nyc_daily.csv](data/era5_nyc_daily.csv) — Open-Meteo daily mean temperature (°F) and total precipitation (mm) for NYC, 2012-01-01 to 2025-12-31. Cached so the cleaner has no network dependency.
 
-1. Open a dataset page link above.
-2. Click **Export** (top-right).
-3. Select **CSV**.
-4. Save the file into the `data/` folder.
+### Reproduce Phase IV end-to-end
 
-Direct CSV links:
+From the repo root, with the project venv active:
 
-- Traffic: https://data.cityofnewyork.us/api/views/btm5-ppia/rows.csv?accessType=DOWNLOAD
-- Crashes: https://data.cityofnewyork.us/api/views/h9gi-nx95/rows.csv?accessType=DOWNLOAD
-- Climate projections: https://data.cityofnewyork.us/api/views/hmdk-eidg/rows.csv?accessType=DOWNLOAD
-- Hyperlocal temperature: https://data.cityofnewyork.us/api/views/qdq3-9eqn/rows.csv?accessType=DOWNLOAD
+```bash
+python phase4_clean.py                                                # writes data/phase4_*.csv
+python build_phase4_notebook.py                                       # writes phase4_final.ipynb
+jupyter nbconvert --to notebook --execute phase4_final.ipynb --inplace \
+    --ExecutePreprocessor.kernel_name=ds-wild                          # executes all cells
+```
 
-See also: [DATA_DOWNLOAD_GUIDE.md](DATA_DOWNLOAD_GUIDE.md)
+`build_phase4_notebook.py` regenerates the notebook from inline cell definitions; edit it (not the `.ipynb`) when changing prose or analysis. The `ds-wild` kernel is registered with `python -m ipykernel install --user --name ds-wild` from the project venv.
 
-## Phase I submission artifacts
+## Earlier phases
 
-- Executed feasibility notebook: [two_datasets_analysis.ipynb](two_datasets_analysis.ipynb)
-- Analysis-ready export CSV: [analysis_ready_phase1.csv](analysis_ready_phase1.csv)
+- **Phase I — feasibility:** [two_datasets_analysis.ipynb](two_datasets_analysis.ipynb), exported as [analysis_ready_phase1.csv](analysis_ready_phase1.csv).
+- **Phase II — full EDA:** [phase2_eda.ipynb](phase2_eda.ipynb).
+- **Phase III — preregistration:** the three hypotheses are reproduced verbatim in the §4 of the Phase IV notebook.
 
-The notebook includes:
-- research question(s)
-- raw dataset descriptions
-- data loading/cleaning/aggregation/merge steps
-- export of final analysis-ready dataframe
-- limitations and TA questions
+## Data sources
+
+| Dataset | Source | Used in |
+|---|---|---|
+| Automated Traffic Volume Counts (ATVC) | NYC Open Data, Socrata `7ym2-wayt` | Phase IV exposure variable (`vol_M`) |
+| Motor Vehicle Collisions – Crashes | NYC Open Data, `h9gi-nx95` | Outcome — crash counts and victim-type injuries |
+| Traffic Volume Counts (Historical) | NYC Open Data, `btm5-ppia` | Phase II hourly profiling only |
+| Hyperlocal Temperature Monitoring | NYC Open Data, `qdq3-9eqn` | Phase I; superseded by ERA5 in Phases II+ |
+| NYC Climate Projections | NYC Open Data, `hmdk-eidg` | Not used (decadal granularity) |
+| Open-Meteo ERA5 reanalysis | `archive-api.open-meteo.com` | Daily NYC weather (temp, precip) for the full panel |
+
+Direct CSV download links and per-dataset notes: [DATA_DOWNLOAD_GUIDE.md](DATA_DOWNLOAD_GUIDE.md).
 
 ## How to work on this repo
 - Clone: `git clone https://github.com/VincentPit/ds_in_da_wild.git`
